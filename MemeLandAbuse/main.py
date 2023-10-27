@@ -10,7 +10,7 @@ from eth_account.messages import encode_defunct
 from web3.auto import w3
 
 from TwitterModel import Account1
-from config import refs, api_firstcaptcha
+from config import refs, api_firstcaptcha, threads
 from Unlocker import twitter_unlock_v2, generate_csrf_token
 
 
@@ -636,8 +636,6 @@ def split_list(lst, n):
 
 
 if __name__ == '__main__':
-
-    threads = 2
 
     twitter_data = []
     proxies = []
