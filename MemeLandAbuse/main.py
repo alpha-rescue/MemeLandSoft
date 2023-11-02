@@ -634,13 +634,22 @@ def MultithreadStart(pool, thread_name):
 
             for task in tasks['timely']:
 
-                if task['completed'] == False:
+                if task['id'] == "binanceAMA":
+                    if task['completed'] == False:
+                        res = MM.MakeTask_Binance(task['id'])
+                        if res:
+                            SaveLog(thread_name, auth_token, index, f"{task['id']} - Готово")
+                        else:
+                            SaveLog(thread_name, auth_token, index, f"{task['id']} - Ошибка")
 
-                    res = MM.MakeTask_Daily(task['id'])
-                    if res:
-                        SaveLog(thread_name, auth_token,index, f"{task['id']} - Готово")
-                    else:
-                        SaveLog(thread_name, auth_token,index, f"{task['id']} - Ошибка")
+                else:
+                    if task['completed'] == False:
+
+                        res = MM.MakeTask_Daily(task['id'])
+                        if res:
+                            SaveLog(thread_name, auth_token, index, f"{task['id']} - Готово")
+                        else:
+                            SaveLog(thread_name, auth_token, index, f"{task['id']} - Ошибка")
 
             SaveLog(thread_name, auth_token,index, f"Поинтов: {MM.GetTasks['points']['current']}")
             SaveLog(thread_name, auth_token,index, '')
