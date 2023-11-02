@@ -265,26 +265,6 @@ class MemeModel:
                 self.points = response.json()["points"]["current"]
                 return response.json()["status"]
 
-    def MakeTask_Daily(self, param):
-
-        # self.tw_model.Tweet(text=text)
-
-        time.sleep(random.randint(5,15))
-
-        while True:
-
-            # print(self.session.headers)
-            response = self.session.post(f"https://memefarm-api.memecoin.org/user/verify/daily-task/{param}")
-
-            # print(response.text)
-
-            if response.json()['status'] != "success":
-                time.sleep(random.randint(5,15))
-                continue
-            else:
-                self.points = response.json()["points"]["current"]
-                return response.json()["status"]
-
     def MakeTask_WhatIsMeme(self):
 
         text = f"👋 Excuse me Sir/Madam, do you have a moment to talk about @Memecoin? $MEME is literally a meme coin. No utility. No roadmap. No promises. No expectation of financial return. Just 100% memes. 😉 "
@@ -444,6 +424,50 @@ class MemeModel:
         return response.json()["status"]
 
 
+    def MakeTask_Daily(self, param):
+
+        # self.tw_model.Tweet(text=text)
+
+        time.sleep(random.randint(5,15))
+
+        a = True
+        while True:
+
+            # print(self.session.headers)
+            response = self.session.post(f"https://memefarm-api.memecoin.org/user/verify/{'daily' if a else 'claim'}-task/{param}")
+
+            # print(response.text)
+
+            if response.json()['status'] != "success":
+                time.sleep(random.randint(5,15))
+                a = False if a else True
+                continue
+            else:
+                self.points = response.json()["points"]["current"]
+                return response.json()["status"]
+
+    def MakeTask_Binance(self, param):
+
+        # self.tw_model.Tweet(text=text)
+
+        time.sleep(random.randint(5,15))
+
+        a = True
+        while True:
+            self.session.headers.update({"content-type": 'application/json'})
+            # print(self.session.headers)
+            response = self.session.post(f"https://memefarm-api.memecoin.org/user/verify/claim-task/{param}", json={"code": "COMMUNITY COMPANY"})
+
+            self.session.headers.update({"content-type": None})
+            # print(response.text)
+
+            if response.json()['status'] != "success":
+                time.sleep(random.randint(5,15))
+                a = False if a else True
+                continue
+            else:
+                self.points = response.json()["points"]["current"]
+                return response.json()["status"]
 
 
     def InviteCodeTask(self):
